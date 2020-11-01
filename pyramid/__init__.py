@@ -1,8 +1,13 @@
-"""Imports everything that we want to export to the user"""
+"""A Python Animation Library"""
 
 # Rendering
 from .rendering.render_config import RenderConfig
+from .rendering.renderer import Renderer
 from .rendering.cairo_renderer import CairoRenderer
+
+# Writing
+from .writing.writer import Writer
+from .writing.ffmpeg_writer import FFMPEGWriter
 
 # Animation
 from .animation.animation import Animation
@@ -12,3 +17,4 @@ from .animation.easings import Linear, linear, Exponential, exponential, Quadrat
 # Entities
 from .entities.entity import Entity
 from .entities.scene import Scene
+from .entities.primitive_entities import Rectangle
