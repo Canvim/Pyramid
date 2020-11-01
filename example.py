@@ -17,7 +17,7 @@ with Timeline() as timeline:
 
 # This is what we want:
 
-class CoolBallsScene(Scene):
+class CoolestScene(Scene):
     def construct(self, timeline):
         rectangle = Rectangle()
         timeline.add(Animation(rectangle))
@@ -25,3 +25,11 @@ class CoolBallsScene(Scene):
 
         # scene.render, renderer.render will then be called by the
         # package itself and configured by the cli / config file
+
+
+# ... maybe even this, where Scene actually implements both Entity and Timeline:
+
+class CoolestScene(Scene):
+    def construct(self):
+        rectangle = Rectangle()
+        self.add(Animation(rectangle))
