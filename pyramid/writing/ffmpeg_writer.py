@@ -1,14 +1,12 @@
 """FFMPEG Writer"""
 
-from contextlib import ContextDecorator
 import subprocess
 
-from pypic.utils import ProgressBar
+from .writer import Writer
+from ..constants import HD_RENDER_CONFIG, FFMPEG_BINARY
 
-from pypic.constants import HD_RENDER_CONFIG, FFMPEG_BINARY
 
-
-class FFMPEGWriter(ContextDecorator):
+class FFMPEGWriter(Writer):
     """
     FFMPEGWriter is a class/context manager to write frames into an ffmpeg subprocess.
     This is used internally to pass on rendered frames and stitch them together into
@@ -16,10 +14,10 @@ class FFMPEGWriter(ContextDecorator):
     """
 
     def __init__(self, render_config=HD_RENDER_CONFIG, total_frames=0):
-        self.total_frames = total_frames
-        self.render_config = render_config
+        super().__init__(render_config, total_frames)
 
         self.file_name = f"{self.render_config.width}x{self.render_config.height}_{self.render_config.fps}fps.{self.render_config.extension}"
+        self.progress_bar_message = f"Rendering {self.file_name}"
 
     def start_ffmpeg(self):
         """
@@ -42,10 +40,11 @@ class FFMPEGWriter(ContextDecorator):
 
         self.ffmpeg_process = subprocess.Popen(command, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
 
-    def initiate_progress_bar(self):
-        self.progress_bar = ProgressBar(f"Rendering {self.file_name}", max=self.total_frames)
-
     def stop_ffmpeg(self):
+        """
+        Calls the ffmpeg process' pipes to be closed and waits for them
+        to finish
+        """
         self.ffmpeg_process.stdin.close()
         self.ffmpeg_process.wait()
 

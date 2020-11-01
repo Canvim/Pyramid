@@ -5,19 +5,14 @@ from math import pi, sin
 from cairo import ImageSurface, Context, FORMAT_ARGB32
 import numpy as np
 
-from pypic.rendering.ffmpeg_writer import FFMPEGWriter
-from pypic.animation import Timeline
+from .renderer import Renderer
+from ..writing.ffmpeg_writer import FFMPEGWriter
+from ..animation.timeline import Timeline
+from ..constants import HD_RENDER_CONFIG
 
-from pypic.constants import HD_RENDER_CONFIG
-
-
-class CairoRenderer:
+class CairoRenderer(Renderer):
     def __init__(self, render_config=HD_RENDER_CONFIG, timeline=Timeline(), starting_frame_number=0):
-        self.render_config = render_config
-        self.current_frame_number = starting_frame_number
-        self.timeline = timeline
-
-        self.total_frames = round((self.timeline.duration/1000)*self.render_config.fps)
+        super().__init__(render_config, timeline, starting_frame_number)
 
         self.surface = ImageSurface(FORMAT_ARGB32, self.render_config.width, self.render_config.height)
         self.context = Context(self.surface)
@@ -50,14 +45,17 @@ class CairoRenderer:
     def get_current_frame(self):
         return self.get_frame(self.current_frame_number)
 
-    def render(self):
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *args):
+        pass
+
+    def render(self, writer):
         """
         Steps through the timeline and draws every frame to a cairo surface. That
         surface is then converted into pixel arrays which are then written to an
         ffmpeg process living inside the FFMPEGWriter.
         """
-        with FFMPEGWriter(render_config=self.render_config, total_frames=self.total_frames) as ffmpeg_writer:
-            while self.current_frame_number < self.total_frames:
-                frame = self.get_current_frame()
-                ffmpeg_writer.write_frame(frame)
-                self.current_frame_number += 1
+        for frame in self:
+            writer.write_frame(frame)

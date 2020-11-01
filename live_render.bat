@@ -1,1 +1,1 @@
-nodemon --exec python test.py -e py --watch ./*.py --watch **/*.py
+nodemon --exec python example.py -e py --watch ./*.py --watch **/*.py
