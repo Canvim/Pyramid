@@ -3,6 +3,19 @@ import math
 
 from ..utils.utils import minmax
 
+# The amazing anime.js library and it's many supported interpolations https://github.com/juliangarnier/anime/blob/master/src/index.js
+# (svg paths included!)
+
+# We must be able to interpolate
+#   [X] Integers
+#   [X] Floats
+#   [ ] Strings
+#   [ ] Points
+#   [ ] Paths
+#   [ ] Recursive arrays/tuples of said types
+#   [ ] Recursive dictionaries of said types
+
+
 class Easing:
     def interpolate(self, t=0, start=0, end=1):
         return NotImplemented
