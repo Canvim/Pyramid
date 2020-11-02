@@ -6,7 +6,7 @@ from pyramid import *
 # (temporary)
 
 with Timeline() as timeline:
-    timeline.add(Animation(duration=7*1000))
+    timeline.add(Animation(duration=14*1000))
 
     my_render_config = RenderConfig(fps=60, width=720, height=480)
 

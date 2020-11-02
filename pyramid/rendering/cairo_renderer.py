@@ -32,7 +32,13 @@ class CairoRenderer(Renderer):
         st = sin(t)
 
         self.context.arc(x, y, r, 0, ea)
-        self.context.set_source_rgba(abs(st*st*st), abs(st), 1.0 - abs(st), abs(st*st))
+
+        r = abs(st*st*st)
+        g = abs(st) - 0.1
+        b = abs(st)
+        a = 1
+
+        self.context.set_source_rgba(r, g, b, a)
         self.context.fill()
 
     def get_frame(self, frame_number):

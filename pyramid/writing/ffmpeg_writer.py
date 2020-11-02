@@ -24,16 +24,21 @@ class FFMPEGWriter(Writer):
         Starts ffmpeg in a subprocess with a setup that allows for
         frames to be piped to it.
         """
+
+        # See https://trac.ffmpeg.org/wiki/Encode/H.264 for all parameters
         command = [
             FFMPEG_BINARY, "-y",
             "-f", "rawvideo",
             "-s", f"{self.render_config.width}x{self.render_config.height}",
-            "-pix_fmt", "rgba",
-            "-r", str(self.render_config.fps),
-            "-i", "-",
-            "-an",
-            "-loglevel", "error",
-            "-vcodec", "libx264",
+            "-pix_fmt", "bgra", #
+            "-r", str(self.render_config.fps), # Sets framerate
+            "-i", "-", # Sets input to pipe
+            "-an", # Don't expect audio,
+            "-loglevel", "panic", # Only log to console if something crashes
+            "-c:v", "libx264", # H.264 encoding
+            "-preset", "ultrafast", # Should probably stay at fast/medium later
+            "-crf", "20", # Ranges 0-51 indicates lossless compression to worst compression
+            "-tune", "animation", # Tunes the encoder for animation and 'cartoons'
             "-pix_fmt", "yuv420p",
             self.file_name
         ]
