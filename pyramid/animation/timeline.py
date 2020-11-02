@@ -8,6 +8,7 @@ from .animation import Animation
 class Timeline(ContextDecorator):
     def __init__(self, *animations):
         self.duration = 0
+        self.total_frames = 0
         self.animations = []
 
         for animation in [*animations]:
@@ -29,7 +30,6 @@ class Timeline(ContextDecorator):
 
         for animation in self.animations:
             self.duration += animation.duration
-
 
     def __enter__(self):
         return self

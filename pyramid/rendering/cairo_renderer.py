@@ -55,12 +55,3 @@ class CairoRenderer(Renderer):
 
     def __exit__(self, *args):
         pass
-
-    def render(self, writer):
-        """
-        Steps through the timeline and draws every frame to a cairo surface. That
-        surface is then converted into pixel arrays which are then written to using
-        the provided writer. Usually an ffmpeg process.
-        """
-        for frame in self:
-            writer.write_frame(frame)

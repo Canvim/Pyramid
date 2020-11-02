@@ -1,7 +1,8 @@
 
 from functools import total_ordering
-from pyramid.constants import DEFAULT_RENDER_CONFIG
+
 from .entity import Entity
+from ..constants import DEFAULT_RENDER_CONFIG
 from ..animation.timeline import Timeline
 from ..animation.animation import Animation
 from ..writing.writer import Writer
@@ -21,17 +22,15 @@ class Scene(Entity):
     def construct(self):
         pass
 
-    def render(self, render_config : RenderConfig=DEFAULT_RENDER_CONFIG, renderer : Renderer=None, writer : Writer=None):
-        if not renderer:
-            renderer = CairoRenderer(render_config=render_config, timeline=self.timeline)
+    def render(self, render_config : RenderConfig=DEFAULT_RENDER_CONFIG, renderer : Renderer=CairoRenderer(), writer : Writer=FFMPEGWriter()):
+
+        renderer.re_initiate(render_config=render_config, timeline=self.timeline)
+        writer.re_initiate(render_config=render_config, total_frames=renderer.total_frames)
 
         with renderer:
-            if not writer:
-                writer = FFMPEGWriter(render_config=render_config, total_frames=renderer.total_frames)
-
             with writer:
-                renderer.render(writer)
-
+                for frame in renderer:
+                    writer.write_frame(frame)
 
     def update(self):
         return

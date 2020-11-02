@@ -16,7 +16,7 @@ class FFMPEGWriter(Writer):
     def __init__(self, render_config=DEFAULT_RENDER_CONFIG, total_frames=0):
         super().__init__(render_config, total_frames)
 
-        self.file_name = f"{self.render_config.width}x{self.render_config.height}_{self.render_config.fps}fps.{self.render_config.extension}"
+        self.file_name = f"{self.render_config.width}x{self.render_config.height}_{self.render_config.fps}fps.mp4"
         self.progress_bar_message = f"Rendering {self.file_name}"
 
     def start_ffmpeg(self):

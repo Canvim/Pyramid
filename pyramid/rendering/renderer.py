@@ -12,8 +12,10 @@ class Renderer(ABC, ContextDecorator):
         self.render_config = render_config
         self.current_frame_number = starting_frame_number
         self.timeline = timeline
-
         self.total_frames = round((self.timeline.duration/1000)*self.render_config.fps)
+
+    def re_initiate(self, render_config=DEFAULT_RENDER_CONFIG, timeline=Timeline(), starting_frame_number=0):
+        self.__init__(render_config=render_config, timeline=timeline, starting_frame_number=starting_frame_number)
 
     @abstractmethod
     def draw_frame(self, frame_number):
@@ -45,15 +47,6 @@ class Renderer(ABC, ContextDecorator):
             np.ndarray: A numpy array of pixels.
         """
         return self.get_frame(self.current_frame_number)
-
-    @abstractmethod
-    def render(self):
-        """
-        Steps through the timeline and draws every frame.
-        Should also write these frames to something in some way. See CairoRenderer
-        for an example.
-        """
-        return NotImplemented
 
     @abstractmethod
     def __enter__(self):

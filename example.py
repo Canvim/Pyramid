@@ -10,8 +10,8 @@ from pyramid import *
 
 class CoolerScene(Scene):
     def construct(self):
-        rectangle = Rectangle()
-        self.add(Animation(rectangle, duration=7*1000))
+        self.add(Wait(duration=7*1000))
 
 cooler_scene = CoolerScene()
 cooler_scene.render()
+# cooler_scene.render(writer=PNGWriter())
