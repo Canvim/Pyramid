@@ -1,17 +1,16 @@
 """The core cairo-based renderer"""
 
-from math import pi, sin
-
 from cairo import ImageSurface, Context, FORMAT_ARGB32
 import numpy as np
+from numpy import pi, sin
 
 from .renderer import Renderer
 from ..writing.ffmpeg_writer import FFMPEGWriter
 from ..animation.timeline import Timeline
-from ..constants import HD_RENDER_CONFIG
+from ..constants import DEFAULT_RENDER_CONFIG
 
 class CairoRenderer(Renderer):
-    def __init__(self, render_config=HD_RENDER_CONFIG, timeline=Timeline(), starting_frame_number=0):
+    def __init__(self, render_config=DEFAULT_RENDER_CONFIG, timeline=Timeline(), starting_frame_number=0):
         super().__init__(render_config, timeline, starting_frame_number)
 
         self.surface = ImageSurface(FORMAT_ARGB32, self.render_config.width, self.render_config.height)
@@ -60,8 +59,8 @@ class CairoRenderer(Renderer):
     def render(self, writer):
         """
         Steps through the timeline and draws every frame to a cairo surface. That
-        surface is then converted into pixel arrays which are then written to an
-        ffmpeg process living inside the FFMPEGWriter.
+        surface is then converted into pixel arrays which are then written to using
+        the provided writer. Usually an ffmpeg process.
         """
         for frame in self:
             writer.write_frame(frame)

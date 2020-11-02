@@ -3,7 +3,7 @@
 import subprocess
 
 from .writer import Writer
-from ..constants import HD_RENDER_CONFIG, FFMPEG_BINARY
+from ..constants import DEFAULT_RENDER_CONFIG, FFMPEG_BINARY
 
 
 class FFMPEGWriter(Writer):
@@ -13,7 +13,7 @@ class FFMPEGWriter(Writer):
     the final video.
     """
 
-    def __init__(self, render_config=HD_RENDER_CONFIG, total_frames=0):
+    def __init__(self, render_config=DEFAULT_RENDER_CONFIG, total_frames=0):
         super().__init__(render_config, total_frames)
 
         self.file_name = f"{self.render_config.width}x{self.render_config.height}_{self.render_config.fps}fps.{self.render_config.extension}"
@@ -37,7 +37,7 @@ class FFMPEGWriter(Writer):
             "-loglevel", "panic", # Only log to console if something crashes
             "-c:v", "libx264", # H.264 encoding
             "-preset", "ultrafast", # Should probably stay at fast/medium later
-            "-crf", "20", # Ranges 0-51 indicates lossless compression to worst compression
+            "-crf", "18", # Ranges 0-51 indicates lossless compression to worst compression. Sane options are 0-30
             "-tune", "animation", # Tunes the encoder for animation and 'cartoons'
             "-pix_fmt", "yuv420p",
             self.file_name
@@ -54,7 +54,7 @@ class FFMPEGWriter(Writer):
         self.ffmpeg_process.wait()
 
     def write_frame(self, frame):
-        """ Pipes the frame to the ffmpeg subprocess' stdin
+        """Pipes the frame to the ffmpeg subprocess' stdin
 
         Args:
             frame (np.ndarray): numpy array of pixels

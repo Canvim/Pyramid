@@ -3,12 +3,12 @@
 from abc import ABC, abstractmethod
 from contextlib import ContextDecorator
 
-from ..constants import HD_RENDER_CONFIG
+from ..constants import DEFAULT_RENDER_CONFIG
 from ..animation.timeline import Timeline
 
 
 class Renderer(ABC, ContextDecorator):
-    def __init__(self, render_config=HD_RENDER_CONFIG, timeline=Timeline(), starting_frame_number=0):
+    def __init__(self, render_config=DEFAULT_RENDER_CONFIG, timeline=Timeline(), starting_frame_number=0):
         self.render_config = render_config
         self.current_frame_number = starting_frame_number
         self.timeline = timeline
