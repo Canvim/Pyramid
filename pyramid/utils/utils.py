@@ -12,4 +12,4 @@ class ProgressBar(IncrementalBar):
 
     @property
     def estimated_total(self):
-        return "{}".format(datetime.timedelta(seconds=round(self.avg*self.max)))
+        return "{}".format(datetime.timedelta(seconds=round(self.elapsed + self.eta)))

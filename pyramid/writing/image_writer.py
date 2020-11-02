@@ -27,9 +27,14 @@ class ImageWriter(Writer):
 
 class PNGWriter(ImageWriter):
     def write_frame(self, frame):
-        width, height = frame.shape
-        surface = ImageSurface.create_for_data(frame, FORMAT_ARGB32, width, height)
-        surface.write_to_png(path.join(self.images_path, f"{self.progress_bar.index}.png"))
+        if self.progress_bar.index % self.render_config.only_write_every == 0:
+            file_name = f"{self.progress_bar.index}.png"
+
+            self.progress_bar.message = f"Writing {file_name}"
+
+            width, height = frame.shape
+            surface = ImageSurface.create_for_data(frame, FORMAT_ARGB32, width, height)
+            surface.write_to_png(path.join(self.images_path, file_name))
 
         self.progress_bar.next()
 
@@ -38,6 +43,7 @@ class JPEGWriter(ImageWriter):
     def write_frame(self, frame):
         return NotImplemented
 
-        width, height = frame.shape
-        surface = ImageSurface.create_for_data(frame, FORMAT_ARGB32, width, height)
+        if self.progress_bar.index % self.render_config.only_write_every == 0:
+            width, height = frame.shape
+            surface = ImageSurface.create_for_data(frame, FORMAT_ARGB32, width, height)
         self.progress_bar.next()

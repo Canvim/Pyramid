@@ -16,7 +16,11 @@ class FFMPEGWriter(Writer):
     def __init__(self, render_config=DEFAULT_RENDER_CONFIG, total_frames=0):
         super().__init__(render_config, total_frames)
 
-        self.file_name = f"{self.render_config.width}x{self.render_config.height}_{self.render_config.fps}fps.mp4"
+        if self.render_config.only_write_every != 1:
+            self.file_name = f"{self.render_config.width}x{self.render_config.height}_({self.render_config.fps}_{self.render_config.only_write_every})fps.mp4"
+        else:
+            self.file_name = f"{self.render_config.width}x{self.render_config.height}_{self.render_config.fps}fps.mp4"
+
         self.progress_bar_message = f"Rendering {self.file_name}"
 
     def start_ffmpeg(self):
@@ -31,7 +35,7 @@ class FFMPEGWriter(Writer):
             "-f", "rawvideo",
             "-s", f"{self.render_config.width}x{self.render_config.height}",
             "-pix_fmt", "bgra", #
-            "-r", str(self.render_config.fps), # Sets framerate
+            "-r", str(round(self.render_config.fps/self.render_config.only_write_every)), # Sets framerate
             "-i", "-", # Sets input to pipe
             "-an", # Don't expect audio,
             "-loglevel", "panic", # Only log to console if something crashes
@@ -59,8 +63,9 @@ class FFMPEGWriter(Writer):
         Args:
             frame (np.ndarray): numpy array of pixels
         """
+        if self.progress_bar.index % self.render_config.only_write_every == 0:
+            self.ffmpeg_process.stdin.write(frame)
 
-        self.ffmpeg_process.stdin.write(frame)
         self.progress_bar.next()
 
     def __enter__(self):
