@@ -10,6 +10,8 @@ from pyramid import *
 
 class CoolerScene(Scene):
     def construct(self):
+        circle1 = Circle(radius=100, x=200, y=200)
+
         self.add(Wait(duration=10*1000))
 
 cooler_scene = CoolerScene()

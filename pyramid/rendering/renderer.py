@@ -24,7 +24,7 @@ class Renderer(ABC, ContextDecorator):
         Args:
             frame_number ([type]): [description]
         """
-        return NotImplemented
+        raise NotImplementedError()
 
     @abstractmethod
     def get_frame(self, frame_number):
@@ -36,7 +36,7 @@ class Renderer(ABC, ContextDecorator):
         Returns:
             np.ndarray: A numpy array of pixels.
         """
-        return NotImplemented
+        raise NotImplementedError()
 
     def get_current_frame(self):
         """Since the renderer kan keep track of the current frame number,
@@ -50,11 +50,11 @@ class Renderer(ABC, ContextDecorator):
 
     @abstractmethod
     def __enter__(self):
-        return NotImplemented
+        raise NotImplementedError()
 
     @abstractmethod
     def __exit__(self, *args):
-        return NotImplemented
+        raise NotImplementedError()
 
     def __iter__(self):
         """If renderer is used as an iterator, it yields frames

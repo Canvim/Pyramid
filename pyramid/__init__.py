@@ -23,5 +23,8 @@ from .animation.animations import Wait
 
 # Entities
 from .entities.entity import Entity
+from .entities.vector_entity import VectorEntity
+from .entities.hacky_svg_base_entity import HackySvgBaseEntity
+
 from .entities.scene import Scene
-from .entities.primitive_entities import Rectangle
+from .entities.primitive_entities import Arc, Circle

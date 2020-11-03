@@ -27,12 +27,12 @@ class Writer(ABC, ContextDecorator):
             frame (np.ndarray): A numpy array of pixels.
 
         """
-        return NotImplemented
+        raise NotImplementedError()
 
     @abstractmethod
     def __enter__(self):
-        return NotImplemented
+        raise NotImplementedError()
 
     @abstractmethod
     def __exit__(self, *args):
-        return NotImplemented
+        raise NotImplementedError()

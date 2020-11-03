@@ -18,7 +18,7 @@ from ..utils.utils import minmax
 
 class Easing:
     def interpolate(self, t=0, start=0, end=1):
-        return NotImplemented
+        raise NotImplementedError()
 
 
 def linear(t=0, start=0, end=1):
