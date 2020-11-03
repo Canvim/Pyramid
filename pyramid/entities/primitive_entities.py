@@ -1,6 +1,6 @@
 
 
-from math import pi
+from math import pi, sin
 
 from .hacky_svg_base_entity import HackySvgBaseEntity
 
@@ -23,12 +23,28 @@ class Arc(HackySvgBaseEntity):
 
         self.generate_paths()
 
-    def update(self):
-        pass
+    def draw_to_temporary_context(self):
+        self.context.arc(0, 0, self.radius, self.start_angle, self.end_angle)
+        self.context.fill()
+
+class Text(HackySvgBaseEntity):
+    def __init__(self, text="", font_size=100, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.text = text
+        self.font_size = font_size
+
+        self.generate_paths()
 
     def draw_to_temporary_context(self):
-        self.context.arc(self.x, self.y, self.radius, self.start_angle, self.end_angle)
+        self.context.set_font_size(self.font_size)
+
+        self.context.select_font_face("times")
+        self.context.text_path(self.text)
+
         self.context.fill()
+
+    def update(self):
+        self.generate_paths()
 
 class Circle(Arc):
     def __init__(self, radius, *args, **kwargs):

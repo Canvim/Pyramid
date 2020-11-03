@@ -5,11 +5,14 @@ from pyramid import *
 
 class CoolerScene(Scene):
     def construct(self):
-        circle1 = Circle(radius=100, x=200, y=200)
+        circle1 = Circle(radius=100, x=100, y=200)
         self.add_entity(circle1)
 
-        self.add(Wait(duration=1000))
-        self.add(Animation(circle1, x=100, y=100))
+        text1 = Text(text="Hello, World!", font_size=100, x=100, y=500)
+        self.add_entity(text1)
+
+        self.add(Animation(text1, font_size=200, easing=Smooth(), duration=3000))
+        self.add(Animation(text1, x=500, y=100, easing=Smooth(), duration=2000))
 
 
 cooler_scene = CoolerScene()

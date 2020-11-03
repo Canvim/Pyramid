@@ -13,7 +13,7 @@ class Renderer(ABC, ContextDecorator):
         self.current_frame_number = starting_frame_number
         self.scene = scene
 
-        self.delta_time = 1/self.render_config.fps
+        self.delta_time = 1000/self.render_config.fps
 
         if self.scene:
             self.initiate_scene()

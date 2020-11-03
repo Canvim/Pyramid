@@ -11,19 +11,21 @@ class Timeline():
         self.current_time = 0
 
         for animation in [*animations]:
-            self.add(animation)
+            self.add_animation(animation)
 
-    def add(self, *animations : Animation):
+    def add_animation(self, *animations : Animation):
         """Adds animations to the timeline"""
 
         for animation in animations:
             self.animations.append(animation)
 
-
         self.recalculate_total_duration()
 
     def seek(self, time):
         self.current_time = time
+
+        for animation in self.animations:
+            animation.interpolate(self.current_time)
 
     def recalculate_total_duration(self):
         self.duration = 0
@@ -31,4 +33,5 @@ class Timeline():
         # TODO: Big task, but must take overlapping animations into consideration
 
         for animation in self.animations:
-            self.duration += animation.duration
+            if animation.duration >= self.duration:
+                self.duration = animation.duration

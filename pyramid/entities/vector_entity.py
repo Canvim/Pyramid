@@ -3,6 +3,7 @@
 from abc import abstractmethod
 
 import numpy as np
+import svgpathtools
 
 from .entity import Entity
 
@@ -20,10 +21,13 @@ class VectorEntity(Entity):
         super().__init__(*args, **kwargs)
         self.paths = []
 
-    @abstractmethod
-    def generate_paths(self):
-        raise NotImplementedError()
+    def update(self):
+        pass
+        # self.generate_paths()
+
+        # for i in range(0, len(self.paths)):
+            # self.paths[i] = self.paths[i].translated(0.1+0j).scaled(1 - 0.01)
 
     @abstractmethod
-    def update(self):
+    def generate_paths(self):
         raise NotImplementedError()

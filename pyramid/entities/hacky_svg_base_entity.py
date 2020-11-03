@@ -31,9 +31,14 @@ class HackySvgBaseEntity(VectorEntity):
             random_name = next(tempfile._get_candidate_names())
             temporary_file_name = path.join(temporary_directory, f"pyramid_{self.__class__.__name__}_{random_name}.svg")
 
-            with cairo.SVGSurface(temporary_file_name, 1000, 1000) as surface:
+            w, h = 1920, 1080
+            with cairo.SVGSurface(temporary_file_name, w, h) as surface:
                 self.context = cairo.Context(surface)
+                # self.context.scale(2, 2)
+                # self.context.translate(w/2, h/2)
+
                 self.draw_to_temporary_context()
+
                 surface.finish()
 
             # clean up and remove the temporary context
@@ -45,7 +50,9 @@ class HackySvgBaseEntity(VectorEntity):
 
             # svg2paths returns a list of two lists. The second one contains raw svg which is
             # not interesting, so we only save the first list of actual svgpathtools.Path objects
-            self.paths = svgpathtools.svg2paths(temporary_file_name)[0]
+            svg_render = svgpathtools.svg2paths(temporary_file_name)
+            self.paths = svg_render[0]
+            self.svg = svg_render[1]
 
     @abstractmethod
     def draw_to_temporary_context(self):
@@ -53,8 +60,4 @@ class HackySvgBaseEntity(VectorEntity):
         When this method is called, there is a temporary self.context present
         that any implementation of this class should draw to.
         """
-        raise NotImplementedError()
-
-    @abstractmethod
-    def update(self):
         raise NotImplementedError()

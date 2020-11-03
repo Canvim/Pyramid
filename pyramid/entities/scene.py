@@ -42,7 +42,7 @@ class Scene(Entity):
         self.draw()
 
     def add(self, *animations : Animation):
-        self.timeline.add(*animations)
+        self.timeline.add_animation(*animations)
 
     def add_entity(self, entity):
         self.entities_dictionary[id(entity)] = entity

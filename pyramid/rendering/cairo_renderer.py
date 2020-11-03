@@ -1,6 +1,6 @@
 """The core cairo-based renderer"""
 
-from cairo import ImageSurface, Context, FORMAT_ARGB32
+from cairo import ImageSurface, Context, FORMAT_ARGB32, MeshPattern
 import numpy as np
 from numpy import pi, sin
 from svgpathtools import CubicBezier, QuadraticBezier, Line, Arc, Path
@@ -19,14 +19,24 @@ class CairoRenderer(Renderer):
         self.surface = ImageSurface(FORMAT_ARGB32, self.render_config.width, self.render_config.height)
         self.context = Context(self.surface)
 
+        self.context.translate(0, 0)
+        self.context.scale(1, 1)
+
     def draw_frame(self, frame_number):
+
         time = frame_number * self.delta_time
         self.scene.seek(time)
 
         # TODO: Support drawing of non-vector entities, such as Scene
         # self.draw_entity(self.scene)
         for entity in self.scene.entities_dictionary.values():
+            entity.update()
+            self.context.save()
+            self.context.translate(entity.x, entity.y)
+            self.context.scale(entity.scale, entity.scale)
+            self.context.rotate(entity.rotation)
             self.draw_entity(entity)
+            self.context.restore()
 
     def draw_entity(self, entity):
         if issubclass(type(entity), VectorEntity):
@@ -38,17 +48,27 @@ class CairoRenderer(Renderer):
         for path in vector_entity.paths:
             self.draw_path(path)
 
-        self.context.set_source_rgba(1.0, 0.0, 0.0, 1.0)
+        self.context.set_source_rgba(0.4, 0.5, 0.0, 1.0)
+
+        self.context.set_fill_rule(1)
+        # self.context.set_dash([40])
+        self.context.set_line_width(1)
         self.context.stroke()
         self.context.fill()
-
-    def draw_curve(self, curve):
-        self.context.move_to(curve.start.real, curve.start.imag)
-        self.context.curve_to(curve.control1.real, curve.control1.imag, curve.control2.real, curve.control2.imag, curve.end.real, curve.end.imag)
 
     def draw_path(self, path: Path):
         for curve in path:
             self.draw_curve(curve)
+
+    def draw_curve(self, curve):
+        if isinstance(curve, CubicBezier):
+            self.context.move_to(curve.start.real, curve.start.imag)
+            self.context.curve_to(curve.control1.real, curve.control1.imag, curve.control2.real, curve.control2.imag, curve.end.real, curve.end.imag)
+        elif isinstance(curve, Line):
+            self.context.move_to(curve.start.real, curve.start.imag)
+            self.context.line_to(curve.end.real, curve.end.imag)
+        else:
+            raise NotImplementedError(f"Rendering of curves of type '{curve.__class__.__name__}' has not been implemented yet.")
 
     def draw_frame_temporary(self, frame_number):
         t = frame_number/self.render_config.fps
@@ -80,9 +100,6 @@ class CairoRenderer(Renderer):
         frame = np.ndarray(shape=(self.render_config.width, self.render_config.height), dtype=np.uint32, buffer=buf)
 
         return frame
-
-    def get_current_frame(self):
-        return self.get_frame(self.current_frame_number)
 
     def __enter__(self):
         return self
