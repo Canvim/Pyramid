@@ -1,5 +1,5 @@
 
-from pyramid.utils.utils import minmax
+from ..utils.utils import minmax
 from .easings import Easing, Linear
 from ..entities.entity import Entity
 
@@ -11,7 +11,7 @@ class Animation:
         self.properties_to_animate = properties_to_animate
         self.original_property_values = {}
 
-        for key, end_value in self.properties_to_animate:
+        for key, end_value in self.properties_to_animate.items():
             if self.target.__getattribute__(key):
                 self.original_property_values[key] = self.target.__getattribute__(key)
             else:
@@ -19,9 +19,9 @@ class Animation:
 
         self.progress = 0
 
-    def seek(self, t):
+    def interpolate(self, t):
         t = minmax(t, 0, 1)
 
-        for key, end_value in self.properties_to_animate:
+        for key, end_value in self.properties_to_animate.items():
             start_value = self.original_property_values[key]
             self.target.__setattr__(key, self.easing.interpolate(t, start_value, end_value))

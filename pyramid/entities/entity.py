@@ -26,7 +26,3 @@ class Entity(ABC):
     @abstractmethod
     def update(self):
         raise NotImplementedError()
-
-    @abstractmethod
-    def draw(self):
-        raise NotImplementedError()

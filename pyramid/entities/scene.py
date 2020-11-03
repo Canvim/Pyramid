@@ -1,5 +1,6 @@
 
-from functools import total_ordering
+
+from abc import abstractmethod
 
 from .entity import Entity
 from ..constants import DEFAULT_RENDER_CONFIG
@@ -13,18 +14,19 @@ from ..rendering.cairo_renderer import CairoRenderer
 
 class Scene(Entity):
 
-    def __init__(self, ):
+    def __init__(self):
         super().__init__()
 
         self.timeline = Timeline()
-        self.construct()
+        self.entities_dictionary = {}
 
+    @abstractmethod
     def construct(self):
-        pass
+        raise NotImplementedError()
 
     def render(self, render_config : RenderConfig=DEFAULT_RENDER_CONFIG, renderer : Renderer=CairoRenderer(), writer : Writer=FFMPEGWriter()):
 
-        renderer.re_initiate(render_config=render_config, timeline=self.timeline)
+        renderer.re_initiate(render_config=render_config, scene=self)
         writer.re_initiate(render_config=render_config, total_frames=renderer.total_frames)
 
         with renderer:
@@ -32,11 +34,15 @@ class Scene(Entity):
                 for frame in renderer:
                     writer.write_frame(frame)
 
-    def update(self):
-        return
+    def seek(self, time):
+        self.timeline.seek(time)
 
-    def draw(self):
-        pass
+    def update(self):
+        self.timeline.step()
+        self.draw()
 
     def add(self, *animations : Animation):
         self.timeline.add(*animations)
+
+    def add_entity(self, entity):
+        self.entities_dictionary[id(entity)] = entity

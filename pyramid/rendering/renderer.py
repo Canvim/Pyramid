@@ -8,14 +8,20 @@ from ..animation.timeline import Timeline
 
 
 class Renderer(ABC, ContextDecorator):
-    def __init__(self, render_config=DEFAULT_RENDER_CONFIG, timeline=Timeline(), starting_frame_number=0):
+    def __init__(self, render_config=DEFAULT_RENDER_CONFIG, scene=None, starting_frame_number=0):
         self.render_config = render_config
         self.current_frame_number = starting_frame_number
-        self.timeline = timeline
-        self.total_frames = round((self.timeline.duration/1000)*self.render_config.fps)
+        self.scene = scene
 
-    def re_initiate(self, render_config=DEFAULT_RENDER_CONFIG, timeline=Timeline(), starting_frame_number=0):
-        self.__init__(render_config=render_config, timeline=timeline, starting_frame_number=starting_frame_number)
+        self.delta_time = 1/self.render_config.fps
+
+        if self.scene:
+            self.initiate_scene()
+
+            self.total_frames = round((self.scene.timeline.duration/1000)*self.render_config.fps)
+
+    def re_initiate(self, render_config=DEFAULT_RENDER_CONFIG, scene=None, starting_frame_number=0):
+        self.__init__(render_config=render_config, scene=scene, starting_frame_number=starting_frame_number)
 
     @abstractmethod
     def draw_frame(self, frame_number):
@@ -48,6 +54,9 @@ class Renderer(ABC, ContextDecorator):
         """
         return self.get_frame(self.current_frame_number)
 
+    def initiate_scene(self):
+        self.scene.construct()
+
     @abstractmethod
     def __enter__(self):
         raise NotImplementedError()
@@ -62,6 +71,7 @@ class Renderer(ABC, ContextDecorator):
         Yields:
             np.ndarray: A numpy array of pixels.
         """
+
         while self.current_frame_number < self.total_frames:
             frame = self.get_current_frame()
             yield frame

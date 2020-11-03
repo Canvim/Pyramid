@@ -1,15 +1,14 @@
 """An object that keeps track of all the animations within a scene"""
 
-from contextlib import ContextDecorator
 
 from .animation import Animation
 
-
-class Timeline(ContextDecorator):
+class Timeline():
     def __init__(self, *animations):
         self.duration = 0
         self.total_frames = 0
         self.animations = []
+        self.current_time = 0
 
         for animation in [*animations]:
             self.add(animation)
@@ -23,6 +22,9 @@ class Timeline(ContextDecorator):
 
         self.recalculate_total_duration()
 
+    def seek(self, time):
+        self.current_time = time
+
     def recalculate_total_duration(self):
         self.duration = 0
 
@@ -30,10 +32,3 @@ class Timeline(ContextDecorator):
 
         for animation in self.animations:
             self.duration += animation.duration
-
-    def __enter__(self):
-        return self
-
-    def __exit__(self, *args):
-        self.recalculate_total_duration()
-        pass

@@ -16,25 +16,14 @@ class VectorEntity(Entity):
     class or its derivatives.
     """
 
-    def __init__(self, points=np.array([]), *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.points = points
+        self.paths = []
 
     @abstractmethod
-    def generate_points(self):
+    def generate_paths(self):
         raise NotImplementedError()
 
     @abstractmethod
     def update(self):
         raise NotImplementedError()
-
-    def draw(self):
-
-        # TODO: Implement General-purpose vector drawing of points using
-        # move_to, line_to, curve_to and so on for all the points with
-        # their correseponding points
-
-        raise NotImplementedError()
-
-        for point in self.points:
-            pass

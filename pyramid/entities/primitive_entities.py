@@ -21,7 +21,7 @@ class Arc(HackySvgBaseEntity):
         self.end_angle = end_angle
         self.radius = radius
 
-        self.generate_points()
+        self.generate_paths()
 
     def update(self):
         pass
