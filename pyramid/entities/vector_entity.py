@@ -26,7 +26,7 @@ class VectorEntity(Entity):
         # self.generate_paths()
 
         # for i in range(0, len(self.paths)):
-            # self.paths[i] = self.paths[i].translated(0.1+0j).scaled(1 - 0.01)
+        # self.paths[i] = self.paths[i].translated(0.1+0j).scaled(1 - 0.01)
 
     @abstractmethod
     def generate_paths(self):

@@ -1,6 +1,6 @@
 """The core cairo-based renderer"""
 
-from cairo import ImageSurface, Context, FORMAT_ARGB32, MeshPattern
+from cairo import ImageSurface, Context, FORMAT_ARGB32
 import numpy as np
 from numpy import pi, sin
 from svgpathtools import CubicBezier, QuadraticBezier, Line, Arc, Path
@@ -8,9 +8,7 @@ from svgpathtools import CubicBezier, QuadraticBezier, Line, Arc, Path
 from .renderer import Renderer
 from ..entities.entity import Entity
 from ..entities.vector_entity import VectorEntity
-from ..writing.ffmpeg_writer import FFMPEGWriter
-from ..animation.timeline import Timeline
-from ..constants import DEFAULT_RENDER_CONFIG
+
 
 class CairoRenderer(Renderer):
     def __init__(self, *args, **kwargs):
@@ -20,7 +18,7 @@ class CairoRenderer(Renderer):
         self.context = Context(self.surface)
 
         self.context.translate(0, 0)
-        self.context.scale(1, 1)
+        # self.context.scale(1, 1)
 
     def draw_frame(self, frame_number):
 
@@ -63,30 +61,32 @@ class CairoRenderer(Renderer):
     def draw_curve(self, curve):
         if isinstance(curve, CubicBezier):
             self.context.move_to(curve.start.real, curve.start.imag)
-            self.context.curve_to(curve.control1.real, curve.control1.imag, curve.control2.real, curve.control2.imag, curve.end.real, curve.end.imag)
+            self.context.curve_to(curve.control1.real, curve.control1.imag, curve.control2.real,
+                                  curve.control2.imag, curve.end.real, curve.end.imag)
         elif isinstance(curve, Line):
             self.context.move_to(curve.start.real, curve.start.imag)
             self.context.line_to(curve.end.real, curve.end.imag)
         else:
-            raise NotImplementedError(f"Rendering of curves of type '{curve.__class__.__name__}' has not been implemented yet.")
+            raise NotImplementedError(
+                f"Rendering of curves of type '{curve.__class__.__name__}' has not been implemented yet.")
 
     def draw_frame_temporary(self, frame_number):
-        t = frame_number/self.render_config.fps
+        t = frame_number / self.render_config.fps
 
         height = self.render_config.height
         width = self.render_config.width
 
-        s = height/2
-        x = width/2 + s * sin(t)
-        y = height/2 - s * sin(t*2)
-        r = height/(2.1 + 2*sin(t))
+        s = height / 2
+        x = width / 2 + s * sin(t)
+        y = height / 2 - s * sin(t * 2)
+        r = height / (2.1 + 2 * sin(t))
         ea = 2 * pi
 
         st = sin(t)
 
         self.context.arc(x, y, r, 0, ea)
 
-        r = abs(st*st*st)
+        r = abs(st * st * st)
         g = abs(st) - 0.1
         b = abs(st)
         a = 1

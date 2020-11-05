@@ -18,7 +18,7 @@ from ..entities.entity import Entity
 
 
 class Animation:
-    def __init__(self, target : Entity = None, duration=1000, start_time=0, easing = smoothSteep, **properties_to_animate):
+    def __init__(self, target: Entity = None, duration=1000, start_time=0, easing=smoothSteep, **properties_to_animate):
         self.target = target
         self.duration = duration
         self.easing = easing
@@ -30,7 +30,7 @@ class Animation:
         self.progress = 0
 
     def interpolate(self, time):
-        t = (time - self.start_time)/self.duration
+        t = np.clip((time - self.start_time) / self.duration, -1, 1)
 
         if t <= 0:
             return

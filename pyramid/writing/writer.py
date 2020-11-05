@@ -14,7 +14,7 @@ class Writer(ABC, ContextDecorator):
         self.progress_bar_message = "Writing"
 
     def re_initiate(self, render_config=DEFAULT_RENDER_CONFIG, total_frames=0):
-         self.__init__(render_config=render_config, total_frames=total_frames)
+        self.__init__(render_config=render_config, total_frames=total_frames)
 
     def initiate_progress_bar(self):
         self.progress_bar = ProgressBar(self.progress_bar_message, max=self.total_frames)

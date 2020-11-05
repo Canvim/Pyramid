@@ -15,9 +15,10 @@ class HackySvgBaseEntity(VectorEntity):
     The base class for Entities that can draw themselves to a Cairo context
     to then be turned into pure svg to then be turned into paths
     """
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.context : cairo.Context = None
+        self.context: cairo.Context = None
 
     def generate_paths(self):
         """

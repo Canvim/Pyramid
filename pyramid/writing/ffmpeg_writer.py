@@ -34,15 +34,15 @@ class FFMPEGWriter(Writer):
             FFMPEG_BINARY, "-y",
             "-f", "rawvideo",
             "-s", f"{self.render_config.width}x{self.render_config.height}",
-            "-pix_fmt", "bgra", #
-            "-r", str(round(self.render_config.fps/self.render_config.only_write_every)), # Sets framerate
-            "-i", "-", # Sets input to pipe
-            "-an", # Don't expect audio,
-            "-loglevel", "panic", # Only log to console if something crashes
-            "-c:v", "libx264", # H.264 encoding
-            "-preset", "ultrafast", # Should probably stay at fast/medium later
-            "-crf", "18", # Ranges 0-51 indicates lossless compression to worst compression. Sane options are 0-30
-            "-tune", "animation", # Tunes the encoder for animation and 'cartoons'
+            "-pix_fmt", "bgra",
+            "-r", str(round(self.render_config.fps / self.render_config.only_write_every)),  # Sets framerate
+            "-i", "-",  # Sets input to pipe
+            "-an",  # Don't expect audio,
+            "-loglevel", "panic",  # Only log to console if something crashes
+            "-c:v", "libx264",  # H.264 encoding
+            "-preset", "ultrafast",  # Should probably stay at fast/medium later
+            "-crf", "18",  # Ranges 0-51 indicates lossless compression to worst compression. Sane options are 0-30
+            "-tune", "animation",  # Tunes the encoder for animation and 'cartoons'
             "-pix_fmt", "yuv420p",
             self.file_name
         ]

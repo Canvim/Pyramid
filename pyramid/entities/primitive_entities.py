@@ -27,6 +27,7 @@ class Arc(HackySvgBaseEntity):
         self.context.arc(0, 0, self.radius, self.start_angle, self.end_angle)
         self.context.fill()
 
+
 class Text(HackySvgBaseEntity):
     def __init__(self, text="", font_size=100, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -49,4 +50,4 @@ class Text(HackySvgBaseEntity):
 
 class Circle(Arc):
     def __init__(self, radius, *args, **kwargs):
-        super().__init__(start_angle=0, end_angle=2*pi, radius=radius, *args, **kwargs)
+        super().__init__(start_angle=0, end_angle=2 * pi, radius=radius, *args, **kwargs)

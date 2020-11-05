@@ -7,6 +7,7 @@ from numpy import swapaxes
 
 from .writer import Writer
 
+
 class ImageWriter(Writer):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

@@ -8,7 +8,7 @@ class CoolerScene(Scene):
         circle1 = Circle(radius=100, x=100, y=200)
         self.add_entity(circle1)
 
-        text1 = Text(text="Hello, World!", font_size=100, x=100, y=500)
+        text1 = Text(text="Hello, World! This is a longer sentence!", font_size=100, x=100, y=500)
         self.add_entity(text1)
 
         self.add(Animation(text1, font_size=200, duration=2000))

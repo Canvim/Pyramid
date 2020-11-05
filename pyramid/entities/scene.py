@@ -12,6 +12,7 @@ from ..rendering.render_config import RenderConfig
 from ..rendering.renderer import Renderer
 from ..rendering.cairo_renderer import CairoRenderer
 
+
 class Scene(Entity):
 
     def __init__(self):
@@ -24,7 +25,8 @@ class Scene(Entity):
     def construct(self):
         raise NotImplementedError()
 
-    def render(self, render_config : RenderConfig=DEFAULT_RENDER_CONFIG, renderer : Renderer=CairoRenderer(), writer : Writer=FFMPEGWriter()):
+    def render(self, render_config: RenderConfig = DEFAULT_RENDER_CONFIG,
+               renderer: Renderer = CairoRenderer(), writer: Writer = FFMPEGWriter()):
 
         renderer.re_initiate(render_config=render_config, scene=self)
         writer.re_initiate(render_config=render_config, total_frames=renderer.total_frames)
@@ -41,7 +43,7 @@ class Scene(Entity):
         self.timeline.step()
         self.draw()
 
-    def add(self, *animations : Animation):
+    def add(self, *animations: Animation):
         self.timeline.add_animation(*animations)
 
     def add_entity(self, entity):

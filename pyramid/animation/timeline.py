@@ -3,6 +3,7 @@
 
 from .animation import Animation
 
+
 class Timeline():
     def __init__(self, *animations):
         self.duration = 0
@@ -14,7 +15,7 @@ class Timeline():
         for animation in [*animations]:
             self.add_animation(animation)
 
-    def add_animation(self, *animations : Animation):
+    def add_animation(self, *animations: Animation):
         """Adds animations to the timeline"""
 
         for animation in animations:

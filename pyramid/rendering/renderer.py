@@ -13,12 +13,12 @@ class Renderer(ABC, ContextDecorator):
         self.current_frame_number = starting_frame_number
         self.scene = scene
 
-        self.delta_time = 1000/self.render_config.fps
+        self.delta_time = 1000 / self.render_config.fps
 
         if self.scene:
             self.initiate_scene()
 
-            self.total_frames = round((self.scene.timeline.duration/1000)*self.render_config.fps)
+            self.total_frames = round((self.scene.timeline.duration / 1000) * self.render_config.fps)
 
     def re_initiate(self, render_config=DEFAULT_RENDER_CONFIG, scene=None, starting_frame_number=0):
         self.__init__(render_config=render_config, scene=scene, starting_frame_number=starting_frame_number)
