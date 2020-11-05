@@ -16,7 +16,7 @@ from .writing.image_writer import ImageWriter, PNGWriter, JPEGWriter, Screenshot
 # Animation
 from .animation.animation import Animation
 from .animation.timeline import Timeline
-from .animation.easings import Linear, linear, Exponential, exponential, Quadratic, Cubic, Quartic, Quintic, Smooth
+from .animation.easings import linear, smooth, smoothSteep, smoothSteeper, fastSmoothInSlowSmoothOut, slowSmoothInFastSmoothOut
 
 # Animations
 from .animation.animations import Wait

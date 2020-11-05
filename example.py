@@ -11,8 +11,8 @@ class CoolerScene(Scene):
         text1 = Text(text="Hello, World!", font_size=100, x=100, y=500)
         self.add_entity(text1)
 
-        self.add(Animation(text1, font_size=200, easing=Smooth(), duration=3000))
-        self.add(Animation(text1, x=500, y=100, easing=Smooth(), duration=2000))
+        self.add(Animation(text1, font_size=200, duration=2000))
+        self.add(Animation(text1, x=500, y=100, duration=2000))
 
 
 cooler_scene = CoolerScene()

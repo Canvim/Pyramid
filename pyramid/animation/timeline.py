@@ -8,6 +8,7 @@ class Timeline():
         self.duration = 0
         self.total_frames = 0
         self.animations = []
+
         self.current_time = 0
 
         for animation in [*animations]:

@@ -46,6 +46,7 @@ class Text(HackySvgBaseEntity):
     def update(self):
         self.generate_paths()
 
+
 class Circle(Arc):
     def __init__(self, radius, *args, **kwargs):
         super().__init__(start_angle=0, end_angle=2*pi, radius=radius, *args, **kwargs)

@@ -2,10 +2,11 @@
 import datetime
 
 from progress.bar import IncrementalBar
+from numpy import exp
 
-
-def minmax(value, min_value=0, max_value=1):
-    return max(min(value, max_value), min_value)
+# Implementation by the manim project
+def sigmoid(x):
+    return 1.0 / (1 + exp(-x))
 
 class ProgressBar(IncrementalBar):
     suffix = "%(percent)d%% - [%(elapsed_td)s / %(estimated_total)s] eta: [%(eta_td)s]"
