@@ -18,15 +18,14 @@ class CairoRenderer(Renderer):
         self.context = Context(self.surface)
 
         self.context.translate(0, 0)
-        # self.context.scale(1, 1)
+        self.context.scale(0.4, 0.4)
 
     def draw_frame(self, frame_number):
-
         time = frame_number * self.delta_time
         self.scene.seek(time)
 
         # TODO: Support drawing of non-vector entities, such as Scene
-        # self.draw_entity(self.scene)
+        self.draw_entity(self.scene)
         for entity in self.scene.entities_dictionary.values():
             entity.update()
             self.context.save()
@@ -39,8 +38,12 @@ class CairoRenderer(Renderer):
     def draw_entity(self, entity):
         if issubclass(type(entity), VectorEntity):
             self.draw_vector_entity(entity)
+        elif issubclass(type(entity), Entity): # Temporary just to clear screen
+            self.context.set_source_rgb(0.0, 0.0, 0.0)
+            self.context.rectangle(0, 0, self.render_config.width*10, self.render_config.height*10)
+            self.context.fill()
         else:
-            raise NotImplementedError(f"Entity of type '{entity}' cannot currently be rendered.")
+            raise NotImplementedError(f"Entity of type '{entity.__class__.__name__}' cannot currently be rendered.")
 
     def draw_vector_entity(self, vector_entity):
         for path in vector_entity.paths:
@@ -71,6 +74,7 @@ class CairoRenderer(Renderer):
                 f"Rendering of curves of type '{curve.__class__.__name__}' has not been implemented yet.")
 
     def draw_frame_temporary(self, frame_number):
+        """This was an old drawing-test generating some cool blue-white balls"""
         t = frame_number / self.render_config.fps
 
         height = self.render_config.height

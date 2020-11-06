@@ -4,10 +4,13 @@ from abc import abstractmethod
 
 from .entity import Entity
 from ..constants import DEFAULT_RENDER_CONFIG
+
 from ..animation.timeline import Timeline
 from ..animation.animation import Animation
-from ..writing.writer import Writer
+
 from ..writing.ffmpeg_writer import FFMPEGWriter
+from ..writing.writer import Writer
+
 from ..rendering.render_config import RenderConfig
 from ..rendering.renderer import Renderer
 from ..rendering.cairo_renderer import CairoRenderer

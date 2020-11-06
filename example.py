@@ -11,9 +11,14 @@ class CoolerScene(Scene):
         text1 = Text(text="Hello, World! This is a longer sentence!", font_size=100, x=100, y=500)
         self.add_entity(text1)
 
-        self.add(Animation(text1, font_size=200, duration=2000))
-        self.add(Animation(text1, x=500, y=100, duration=2000))
+        self.add(
+            Animation(text1, font_size=200, duration=1600),
+            Animation(text1, x=500, y=100, duration=2000)
+        )
+
+        self.add(Animation(text1, x=100, y=900, duration=2000))
+        self.add(Animation(text1, font_size=100, duration=1600))
 
 
 cooler_scene = CoolerScene()
-cooler_scene.render(render_config=FULL_HD_RENDER_CONFIG, writer=FFMPEGWriter())
+cooler_scene.render(render_config=TOASTER_RENDER_CONFIG, writer=FFMPEGWriter())

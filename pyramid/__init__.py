@@ -1,8 +1,5 @@
 """A Python Animation Library"""
 
-# Constants
-from .constants import *
-
 # Rendering
 from .rendering.render_config import RenderConfig
 from .rendering.renderer import Renderer
@@ -28,3 +25,6 @@ from .entities.hacky_svg_base_entity import HackySvgBaseEntity
 
 from .entities.scene import Scene
 from .entities.primitive_entities import Arc, Circle, Text
+
+# Constants
+from .constants import *

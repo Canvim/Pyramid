@@ -47,8 +47,7 @@ HD_RENDER_CONFIG_HALF_FPS = RenderConfig(
 
 # 360p, 15fps
 TOASTER_RENDER_CONFIG = RenderConfig(
-    fps=30,
-    only_write_every=2,
+    fps=15,
     width=640,
     height=360
 )
