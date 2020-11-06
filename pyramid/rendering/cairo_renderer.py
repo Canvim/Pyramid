@@ -46,32 +46,23 @@ class CairoRenderer(Renderer):
             raise NotImplementedError(f"Entity of type '{entity.__class__.__name__}' cannot currently be rendered.")
 
     def draw_vector_entity(self, vector_entity):
-        for path in vector_entity.paths:
-            self.draw_path(path)
+        self.draw_curves(vector_entity.points)
 
         self.context.set_source_rgba(0.4, 0.5, 0.0, 1.0)
-
-        self.context.set_fill_rule(1)
         # self.context.set_dash([40])
         self.context.set_line_width(1)
-        self.context.stroke()
-        self.context.fill()
+        self.context.stroke_preserve()
 
-    def draw_path(self, path: Path):
-        for curve in path:
-            self.draw_curve(curve)
+    def draw_curves(self, points):
+        for i in range(len(points)//4):
+            index = i*4
+            curve = points[index:index+4]
+            start, control1, control2, end = curve
 
-    def draw_curve(self, curve):
-        if isinstance(curve, CubicBezier):
-            self.context.move_to(curve.start.real, curve.start.imag)
-            self.context.curve_to(curve.control1.real, curve.control1.imag, curve.control2.real,
-                                  curve.control2.imag, curve.end.real, curve.end.imag)
-        elif isinstance(curve, Line):
-            self.context.move_to(curve.start.real, curve.start.imag)
-            self.context.line_to(curve.end.real, curve.end.imag)
-        else:
-            raise NotImplementedError(
-                f"Rendering of curves of type '{curve.__class__.__name__}' has not been implemented yet.")
+            self.context.move_to(start.real, start.imag)
+            self.context.curve_to(control1.real, control1.imag, control2.real, control2.imag, end.real, end.imag)
+
+            
 
     def draw_frame_temporary(self, frame_number):
         """This was an old drawing-test generating some cool blue-white balls"""

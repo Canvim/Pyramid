@@ -19,14 +19,14 @@ class VectorEntity(Entity):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.paths = []
+        self.points = []
 
     def update(self):
         pass
         # self.generate_paths()
 
-        # for i in range(0, len(self.paths)):
-        # self.paths[i] = self.paths[i].translated(0.1+0j).scaled(1 - 0.01)
+        # for i in range(0, len(self.points)):
+        # self.points[i] = self.points[i].translated(0.1+0j).scaled(1 - 0.01)
 
     @abstractmethod
     def generate_paths(self):

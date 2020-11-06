@@ -52,7 +52,29 @@ class HackySvgBaseEntity(VectorEntity):
             # svg2paths returns a list of two lists. The second one contains raw svg which is
             # not interesting, so we only save the first list of actual svgpathtools.Path objects
             svg_render = svgpathtools.svg2paths(temporary_file_name)
-            self.paths = svg_render[0]
+
+            temporary_points = []
+            for line in svg_render[0][0]:
+                if isinstance(line, svgpathtools.path.CubicBezier):
+                    for coordinates in list(line):
+                        temporary_points.append(coordinates)
+                elif isinstance(line, svgpathtools.path.Line):
+                    points = list(line)
+                    temporary_points.append(points[0])
+                    temporary_points.append(points[0])
+                    temporary_points.append(points[1])
+                    temporary_points.append(points[1])
+                elif isinstance(line, svgpathtools.path.QuadraticBezier):
+                    points = list(line)
+                    temporary_points.append(points[0])
+                    temporary_points.append(points[1])
+                    temporary_points.append(points[1])
+                    temporary_points.append(points[2])
+                else: 
+                    raise NotImplementedError(
+                    f"Rendering of curves of type '{line.__class__.__name__}' has not been implemented yet.")
+
+            self.points = temporary_points
             self.svg = svg_render[1]
 
     @abstractmethod
