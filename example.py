@@ -16,6 +16,8 @@ class CoolerScene(Scene):
             Animation(text1, x=500, y=100, duration=2000)
         )
 
+        self.add(Wait(1000))
+
         self.add(Animation(text1, x=100, y=900, duration=2000))
         self.add(Animation(text1, font_size=100, duration=1600))
 
