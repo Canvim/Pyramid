@@ -9,6 +9,7 @@ tmp/
 temp/
 render/
 final/
+.vscode
 
 # Created by https://www.toptal.com/developers/gitignore/api/python,video
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,video
