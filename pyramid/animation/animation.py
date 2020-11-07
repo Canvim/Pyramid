@@ -1,4 +1,5 @@
 
+from numpy.lib.arraysetops import isin
 from .easings import *
 from ..entities.entity import Entity
 
@@ -16,13 +17,18 @@ from ..entities.entity import Entity
 #   [ ] Recursively check arrays/tuples of above types
 #   [ ] Recursively check dictionaries of above types
 
+def recursively_interpolate_value(start_value, end_value, t, easing):
+    if isinstance(start_value, (float, int)):
+        return easing(t=t, start=start_value, end=end_value)
+    else:
+        raise NotImplementedError(f"Value of type '{start_value.__class__.__name__}' cannot be interpolated yet.")
 
 class Animation:
-    def __init__(self, target: Entity = None, duration=1000, start_time=0, easing=smoothSteep, **properties_to_animate):
+    def __init__(self, target: Entity = None, duration=1000, start_time=0, easing=smoothSteep, **attributes_to_animate):
         self.target = target
         self.duration = duration
         self.easing = easing
-        self.properties_to_animate = properties_to_animate
+        self.attributes_to_animate = attributes_to_animate
         self.original_property_values = {}
 
         self.start_time = 0
@@ -37,12 +43,15 @@ class Animation:
 
         # If the original_values are not present, get them!
         if not self.original_property_values:
-            for key, end_value in self.properties_to_animate.items():
-                if self.target.__getattribute__(key):
-                    self.original_property_values[key] = self.target.__getattribute__(key)
-                else:
-                    raise AttributeError(f"'{key}' does not exist as an attribute of entity '{self.target.__name__}'")
+            for key, end_value in self.attributes_to_animate.items():
+                self.original_property_values[key] = getattr(self.target, key)
 
-        for key, end_value in self.properties_to_animate.items():
+        self.interpolate_attributes_on_target(t)
+
+    def interpolate_attributes_on_target(self, t):
+        for key, end_value in self.attributes_to_animate.items():
             start_value = self.original_property_values[key]
-            self.target.__setattr__(key, self.easing(t=t, start=start_value, end=end_value))
+
+            new_value = recursively_interpolate_value(start_value, end_value, t, self.easing)
+
+            self.target.__setattr__(key, new_value)

@@ -16,7 +16,7 @@ from .animation.timeline import Timeline
 from .animation.easings import linear, smooth, smoothSteep, smoothSteeper, fastSmoothInSlowSmoothOut, slowSmoothInFastSmoothOut
 
 # Animations
-from .animation.animations import Wait
+from .animation.animations import Wait, Morph
 
 # Entities
 from .entities.entity import Entity

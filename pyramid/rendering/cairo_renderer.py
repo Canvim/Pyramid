@@ -52,17 +52,22 @@ class CairoRenderer(Renderer):
         # self.context.set_dash([40])
         self.context.set_line_width(1)
         self.context.stroke_preserve()
+        self.context.fill()
 
     def draw_curves(self, points):
+        previous_end = complex()
+
         for i in range(len(points)//4):
             index = i*4
             curve = points[index:index+4]
             start, control1, control2, end = curve
 
-            self.context.move_to(start.real, start.imag)
+            if start != previous_end:
+                self.context.move_to(start.real, start.imag)
             self.context.curve_to(control1.real, control1.imag, control2.real, control2.imag, end.real, end.imag)
+            previous_end = end
 
-            
+
 
     def draw_frame_temporary(self, frame_number):
         """This was an old drawing-test generating some cool blue-white balls"""
@@ -100,4 +105,5 @@ class CairoRenderer(Renderer):
         return self
 
     def __exit__(self, *args):
-        pass
+        del self.context
+        del self.surface

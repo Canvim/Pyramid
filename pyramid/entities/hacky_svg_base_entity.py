@@ -51,6 +51,7 @@ class HackySvgBaseEntity(VectorEntity):
 
             # svg2paths returns a list of two lists. The second one contains raw svg which is
             # not interesting, so we only save the first list of actual svgpathtools.Path objects
+            # self.svg = svg_render[1] # uncomment to save svg too
             svg_render = svgpathtools.svg2paths(temporary_file_name)
 
             temporary_points = []
@@ -70,12 +71,11 @@ class HackySvgBaseEntity(VectorEntity):
                     temporary_points.append(points[1])
                     temporary_points.append(points[1])
                     temporary_points.append(points[2])
-                else: 
+                else:
                     raise NotImplementedError(
                     f"Rendering of curves of type '{line.__class__.__name__}' has not been implemented yet.")
 
             self.points = temporary_points
-            self.svg = svg_render[1]
 
     @abstractmethod
     def draw_to_temporary_context(self):
