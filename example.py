@@ -1,5 +1,6 @@
 """Temporary Example. Will move to examples/ once module installation works"""
 
+import math
 from pyramid import *
 
 
@@ -24,14 +25,17 @@ class CoolerScene(Scene):
 
 class MorphScene(Scene):
     def construct(self):
-        circle = Circle(200, x=100, y=100)
-        self.add_entity(circle)
+        text1 = Text("This is text on the side!", x=400, y=400, font_size=200, rotation=0)
+        self.add_entity(text1)
 
-        text = Text("I want to become a circle!")
-        self.add_entity(text)
+        dot = Circle(20, x=500, y=500)
+
+        text2 = Text("I can be on this side too!", x=2000, y=400, font_size=200, rotation=math.pi)
+        # self.add_entity(text)
 
         self.add(Wait(2000))
-        self.add(Morph(text, circle))
+        self.add(Morph(text1, dot))
+        self.add(Morph(text1, text2))
         self.add(Wait(2000))
 
 

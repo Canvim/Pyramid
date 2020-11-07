@@ -45,7 +45,8 @@ class Text(HackySvgBaseEntity):
         self.context.fill()
 
     def update(self):
-        self.generate_paths()
+        pass
+        # self.generate_paths()
 
 
 class Circle(Arc):
