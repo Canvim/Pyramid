@@ -18,7 +18,7 @@ class CairoRenderer(Renderer):
         self.context = Context(self.surface)
 
         self.context.translate(0, 0)
-        self.context.scale(0.4, 0.4)
+        self.context.scale(0.5, 0.5)
 
     def draw_frame(self, frame_number):
         time = frame_number * self.delta_time
@@ -48,7 +48,7 @@ class CairoRenderer(Renderer):
     def draw_vector_entity(self, vector_entity):
         self.draw_curves(vector_entity.points)
 
-        self.context.set_source_rgba(100/255, 100/255, 124/255, 1.0)
+        self.context.set_source_rgba(*vector_entity.color)
         # self.context.set_dash([40])
         self.context.set_line_width(1)
         self.context.stroke_preserve()

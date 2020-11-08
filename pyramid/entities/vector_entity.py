@@ -1,10 +1,6 @@
 """Base for vector-based entities"""
 
 from abc import abstractmethod
-
-import numpy as np
-import svgpathtools
-
 from .entity import Entity
 
 

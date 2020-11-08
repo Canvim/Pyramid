@@ -21,6 +21,7 @@ class Morph(Animation):
         kwargs["y"] = to_entity.y
         kwargs["scale"] = to_entity.scale
         kwargs["rotation"] = to_entity.rotation
+        kwargs["color"] = to_entity.color
         kwargs["points"] = to_entity.points
         super().__init__(*args, **kwargs)
 
