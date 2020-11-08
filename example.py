@@ -46,13 +46,16 @@ class MorphScene(Scene):
 class SVGScene(Scene):
     def construct(self):
         svg_koala = SVG("assets/koala.svg", scale=2)
-        text = Text("I like PyPen!", font_size=200, x=400, y=500)
+        text = Text("I like PyPen!", font_size=200, x=400, y=500, color=RED)
 
         self.add_entity(svg_koala)
 
-        self.add(Wait(3000))
-        self.add(Morph(svg_koala, text))
-        self.add(Wait(3000))
+        dot = Circle(radius=100, color=BLUE, x=500, y=900)
+        self.add_entity(dot)
+
+        self.add(Wait(1000))
+        self.add(Morph(svg_koala, text), Morph(dot, svg_koala), Animation(dot, color=GREEN))
+        self.add(Wait(1000))
 
 scene_to_render = SVGScene() # CoolerScene()
 scene_to_render.render(render_config=HD_RENDER_CONFIG, writer=FFMPEGWriter())

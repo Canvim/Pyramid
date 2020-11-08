@@ -55,3 +55,10 @@ TOASTER_RENDER_CONFIG = RenderConfig(
 DEFAULT_RENDER_CONFIG = HD_RENDER_CONFIG
 
 FFMPEG_BINARY = "ffmpeg"
+
+#NAME = (r  , g  , b  , a  )
+RED   = (0.9, 0.15, 0.32, 1.0)
+GREEN = (0.3, 0.9, 0.3, 1.0)
+BLUE  = (0.2, 0.2, 0.9, 1.0)
+WHITE = (1.0, 1.0, 1.0, 1.0)
+BLACK = (0.0, 0.0, 0.0, 1.0)

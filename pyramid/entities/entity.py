@@ -12,7 +12,7 @@ class Entity(ABC):
     class or its derivatives.
     """
 
-    def __init__(self, x=0, y=0, z=0, rotation=0, scale=1):
+    def __init__(self, x=0, y=0, z=0, rotation=0, scale=1, color : tuple=(1.0, 1.0, 1.0, 1.0)):
         self.x = x
         self.y = y
 
@@ -21,6 +21,7 @@ class Entity(ABC):
 
         self.rotation = rotation
         self.scale = scale
+        self.color = color
         self.children = []
 
     @abstractmethod
