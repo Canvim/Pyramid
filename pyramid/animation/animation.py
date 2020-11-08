@@ -31,6 +31,17 @@ def recursively_interpolate_value(start_value, end_value, t, easing):
         imaginary = easing(t=t, start=start_value.imag, end=end_value.imag)
         return complex(real, imaginary)
 
+    # Experiment with scipy interpolating in-between points... Not quite right yet
+    # elif isinstance(start_value, (list, tuple, np.ndarray, np.array)):
+    #     new_t = easing(t, 0, 1)
+    #     start_array = np.array(start_value)
+    #     end_array = np.array(end_value)
+
+    #     s_i = scipy.interpolate.interp1d(np.arange(start_array.size), start_array)
+    #     scaled_start_array = s_i(np.linspace(0, start_array.size-1, end_array.size))
+
+    #     return (1 - new_t) * scaled_start_array + new_t * end_array
+
     # Much faster than implementation below. However, it can only handle lists
     # of same datatype.. (maybe even only numbers..?), which is an inherit
     # limitation/advantage of numpy.

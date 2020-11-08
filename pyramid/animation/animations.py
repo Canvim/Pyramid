@@ -10,10 +10,10 @@ class Wait(Animation):
 
 class Morph(Animation):
     def __init__(self, from_entity : VectorEntity, to_entity : VectorEntity, *args, **kwargs):
-        if not isinstance(from_entity, VectorEntity):
+        if not issubclass(from_entity.__class__, VectorEntity):
             raise NotImplementedError(f"Cannot morph from '{from_entity.__class__.__name__}' (A non-vector-entity).")
 
-        if not isinstance(to_entity, VectorEntity):
+        if not issubclass(to_entity.__class__, VectorEntity):
             raise NotImplementedError(f"Cannot morph to '{to_entity.__class__.__name__}' (A non-vector-entity).")
 
         kwargs["target"] = from_entity

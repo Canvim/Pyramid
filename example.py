@@ -33,12 +33,26 @@ class MorphScene(Scene):
         self.add_entity(dot)
 
         self.add(Wait(1000))
-        self.add(Morph(dot, text1), Animation(dot, y=900, rotation=-math.pi/4))
+        self.add(Morph(dot, text1, duration=900), Animation(dot, y=900, rotation=-math.pi/4))
+        self.add(Wait(500))
         self.add(Animation(dot, scale=3))
-        self.add(Morph(dot, text2), Animation(dot, y=200, rotation=math.pi/4))
-        self.add(Morph(dot, dot2))
+        self.add(Wait(500))
+        self.add(Morph(dot, text2, duration=900), Animation(dot, y=200, rotation=math.pi/4))
+        self.add(Wait(500))
+        self.add(Morph(dot, dot2, duration=900))
         self.add(Wait(1000))
 
 
-scene_to_render = MorphScene() # CoolerScene()
+class SVGScene(Scene):
+    def construct(self):
+        svg_koala = SVG("assets/koala.svg", scale=2)
+        text = Text("I like PyPen!", font_size=200, x=400, y=500)
+
+        self.add_entity(svg_koala)
+
+        self.add(Wait(3000))
+        self.add(Morph(svg_koala, text))
+        self.add(Wait(3000))
+
+scene_to_render = SVGScene() # CoolerScene()
 scene_to_render.render(render_config=HD_RENDER_CONFIG, writer=FFMPEGWriter())

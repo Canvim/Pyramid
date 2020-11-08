@@ -12,4 +12,4 @@ scaled_p2 = p2_i(np.linspace(0, points2.size-1, points1.size))
 def interpolate(a, b, t):
     return (1-t)*a + t*b
 
-print(interpolate(points1, scaled_p2, 0.5))
+print(interpolate(points1, scaled_p2, 1.0))

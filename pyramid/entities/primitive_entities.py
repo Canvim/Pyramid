@@ -28,6 +28,16 @@ class Arc(HackySvgBaseEntity):
         self.context.fill()
 
 
+class SVG(HackySvgBaseEntity):
+    def __init__(self, file_location, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.file_location = file_location
+
+        self.generate_paths()
+
+    def draw_to_temporary_context(self):
+        print(self.points)
+
 class Text(HackySvgBaseEntity):
     def __init__(self, text="", font_size=100, *args, **kwargs):
         super().__init__(*args, **kwargs)

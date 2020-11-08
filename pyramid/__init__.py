@@ -24,7 +24,7 @@ from .entities.vector_entity import VectorEntity
 from .entities.hacky_svg_base_entity import HackySvgBaseEntity
 
 from .entities.scene import Scene
-from .entities.primitive_entities import Arc, Circle, Text
+from .entities.primitive_entities import Arc, Circle, Text, SVG
 
 # Constants
 from .constants import *
