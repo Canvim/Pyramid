@@ -1,6 +1,6 @@
 
 import numpy as np
-from numpy.core.arrayprint import dtype_is_implied
+import scipy.interpolate
 
 from .easings import *
 from ..entities.entity import Entity
@@ -12,7 +12,7 @@ from ..entities.entity import Entity
 # We must be able to interpolate
 #   [X] Integers
 #   [X] Floats
-#   [ ] Booleans (true/false switch when easing(t) >= 0.5)
+#   [X] Booleans (true/false switch when easing(t) >= 0.5)
 #   [ ] Strings
 #
 #   Moreover:
@@ -20,36 +20,50 @@ from ..entities.entity import Entity
 #   [ ] Recursively check dictionaries of above types
 
 def recursively_interpolate_value(start_value, end_value, t, easing):
-    if isinstance(start_value, (bool)):
-        return start_value if easing(t=t, start=0, end=1) < 0.5 else end_value
-
-    elif isinstance(start_value, (float, int)):
+    if isinstance(start_value, (float, int)):
         return easing(t=t, start=start_value, end=end_value)
+
+    elif isinstance(start_value, (bool)):
+        return start_value if easing(t=t, start=0, end=1) < 0.5 else end_value
 
     elif isinstance(start_value, (complex)):
         real = easing(t=t, start=start_value.real, end=end_value.real)
         imaginary = easing(t=t, start=start_value.imag, end=end_value.imag)
         return complex(real, imaginary)
 
+    # Much faster than implementation below. However, it can only handle lists
+    # of same datatype.. (maybe even only numbers..?), which is an inherit
+    # limitation/advantage of numpy.
     elif isinstance(start_value, (list, tuple, np.ndarray, np.array)):
-        start_length = len(start_value)
-        end_length = len(end_value)
-        new_list = None
+        new_t = easing(t, 0, 1)
+        start_array = np.array(start_value)
+        end_array = np.array(end_value)
 
-        if start_length < end_length:
-            new_list = [recursively_interpolate_value(start_value[i % start_length], end_value[i], t, easing) for i in range(end_length)]
-        elif start_length > end_length:
-            new_list = [recursively_interpolate_value(start_value[i], end_value[i % end_length], t, easing) for i in range(start_length)]
+        if start_array.size < end_array.size:
+            start_array = np.resize(start_array, end_array.size)
         else:
-            new_list = [recursively_interpolate_value(start_value[i], end_value[i], t, easing) for i in range(end_length)]
+            end_array = np.resize(end_array, start_array.size)
 
-        return new_list
+        return (1 - new_t) * start_array + new_t * end_array
+
+    # Old, much slower implementation.. Could handle arrays of whatever though!
+    # elif isinstance(start_value, (list, tuple, np.ndarray, np.array)):
+    #     start_length = len(start_value)
+    #     end_length = len(end_value)
+    #     new_list = []
+    #     if start_length < end_length:
+    #         new_list = [recursively_interpolate_value(start_value[i % start_length], end_value[i], t, easing) for i in range(end_length)]
+    #     elif start_length > end_length:
+    #         new_list = [recursively_interpolate_value(start_value[i], end_value[i % end_length], t, easing) for i in range(start_length)]
+    #     else:
+    #         new_list = [recursively_interpolate_value(start_value[i], end_value[i], t, easing) for i in range(end_length)]
+    #     return new_list
 
     else:
         raise NotImplementedError(f"Value of type '{start_value.__class__.__name__}' cannot be interpolated yet.")
 
 class Animation:
-    def __init__(self, target: Entity = None, duration=1000, start_time=0, easing=smoothSteep, **attributes_to_animate):
+    def __init__(self, target: Entity = None, duration=1500, start_time=0, easing=smoothSteep, **attributes_to_animate):
         self.target = target
         self.duration = duration
         self.easing = easing

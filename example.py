@@ -25,18 +25,19 @@ class CoolerScene(Scene):
 
 class MorphScene(Scene):
     def construct(self):
-        text1 = Text("This is text on the side!", x=400, y=400, font_size=200, rotation=0)
-        self.add_entity(text1)
+        text1 = Text("I used to be a dot!", x=400, y=400, font_size=200)
+        text2 = Text("Testing to morph into different text", x=400, y=400, font_size=200)
+        dot = Circle(200, x=500, y=500)
+        dot2 = Circle(200, x=500, y=500)
 
-        dot = Circle(20, x=500, y=500)
+        self.add_entity(dot)
 
-        text2 = Text("I can be on this side too!", x=2000, y=400, font_size=200, rotation=math.pi)
-        # self.add_entity(text)
-
-        self.add(Wait(2000))
-        self.add(Morph(text1, dot))
-        self.add(Morph(text1, text2))
-        self.add(Wait(2000))
+        self.add(Wait(1000))
+        self.add(Morph(dot, text1), Animation(dot, y=900, rotation=-math.pi/4))
+        self.add(Animation(dot, scale=3))
+        self.add(Morph(dot, text2), Animation(dot, y=200, rotation=math.pi/4))
+        self.add(Morph(dot, dot2))
+        self.add(Wait(1000))
 
 
 scene_to_render = MorphScene() # CoolerScene()
