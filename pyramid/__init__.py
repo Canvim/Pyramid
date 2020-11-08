@@ -4,6 +4,7 @@
 from .rendering.render_config import RenderConfig
 from .rendering.renderer import Renderer
 from .rendering.cairo_renderer import CairoRenderer
+from .rendering.multithreaded_cairo_renderer import MultithreadedCairoRenderer
 
 # Writing
 from .writing.writer import Writer

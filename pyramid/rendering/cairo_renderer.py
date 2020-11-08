@@ -67,8 +67,6 @@ class CairoRenderer(Renderer):
             self.context.curve_to(control1.real, control1.imag, control2.real, control2.imag, end.real, end.imag)
             previous_end = end
 
-
-
     def draw_frame_temporary(self, frame_number):
         """This was an old drawing-test generating some cool blue-white balls"""
         t = frame_number / self.render_config.fps

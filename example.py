@@ -54,5 +54,5 @@ class SVGScene(Scene):
         self.add(Morph(svg_koala, text))
         self.add(Wait(3000))
 
-scene_to_render = SVGScene() # CoolerScene()
-scene_to_render.render(render_config=HD_RENDER_CONFIG, writer=FFMPEGWriter())
+scene_to_render = CoolerScene() # CoolerScene()
+scene_to_render.render(render_config=HD_RENDER_CONFIG, renderer=MultithreadedCairoRenderer(), writer=FFMPEGWriter())
